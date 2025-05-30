@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: ai-interview-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: uvicorn app.main_prod:app --host 0.0.0.0 --port $PORT --workers 1
+    healthCheckPath: /health
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: false
+      - key: LOG_LEVEL
+        value: INFO
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: ADMIN_PASSWORD
+        generateValue: true
+      - key: OPENAI_API_KEY
+        sync: false  # User must set this manually
+
+databases:
+  - name: ai-interview-db
+    plan: free
+    databaseName: ai_interview_api
+    user: ai_interview_user
