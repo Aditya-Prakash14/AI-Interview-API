@@ -2,6 +2,7 @@ services:
   - type: web
     name: ai-interview-api
     env: python
+    runtime: python-3.12.7
     plan: free
     region: oregon  # Choose: oregon, frankfurt, singapore
     buildCommand: pip install -r requirements-prod.txt
