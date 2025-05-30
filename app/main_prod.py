@@ -73,7 +73,12 @@ app = FastAPI(
 # Security middleware
 app.add_middleware(
     TrustedHostMiddleware,
-    allowed_hosts=["*"] if settings.debug else ["your-domain.com", "*.railway.app"]
+    allowed_hosts=["*"] if settings.debug else [
+        "your-domain.com",
+        "*.onrender.com",  # Render domains
+        "*.railway.app",   # Railway domains (if migrating)
+        "*.herokuapp.com"  # Heroku domains (if migrating)
+    ]
 )
 
 # CORS middleware with production settings

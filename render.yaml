@@ -3,9 +3,11 @@ services:
     name: ai-interview-api
     env: python
     plan: free
+    region: oregon  # Choose: oregon, frankfurt, singapore
     buildCommand: pip install -r requirements-prod.txt
     startCommand: uvicorn app.main_prod:app --host 0.0.0.0 --port $PORT --workers 1
     healthCheckPath: /health
+    autoDeploy: true
     envVars:
       - key: SECRET_KEY
         generateValue: true
@@ -19,9 +21,20 @@ services:
         generateValue: true
       - key: OPENAI_API_KEY
         sync: false  # User must set this manually
+      - key: MAX_FILE_SIZE_MB
+        value: 50
+      - key: ALLOWED_AUDIO_FORMATS
+        value: mp3,wav,m4a,flac
+      - key: RATE_LIMIT_REQUESTS
+        value: 100
+      - key: RATE_LIMIT_WINDOW
+        value: 3600
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: 30
 
 databases:
   - name: ai-interview-db
     plan: free
     databaseName: ai_interview_api
     user: ai_interview_user
+    region: oregon  # Should match web service region
